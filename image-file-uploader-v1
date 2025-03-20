@@ -1,0 +1,49 @@
+<html>
+<head></head>
+<body>
+<h4>Image+ New Uploader
+<form id="custom-image-upload-form" method="post" enctype="multipart/form-data">
+    <label for="custom_image_upload">Select File:</label>
+<input type="file" id="custom_image_upload" name="custom_image_upload" required accept="image/*, .html">
+    <input type="submit" value="Upload File">
+</form>
+
+<script>
+fetch('https://content.tst-34.aws.agilent.com/wp-json/wp/v2')
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('REST API is not accessible');
+    }
+  })
+  .then(data => console.log('REST API is enabled:', data))
+  .catch(error => console.error('Error:', error));
+</script>
+<script>
+const apiUrl = 'https://content.tst-34.aws.agilent.com/wp-json/wp/v2/posts';
+const username = 'employee_email'; // Replace with your actual WordPress username
+const appPassword = 'wp_app_password!'; // Replace with your actual application password
+
+const data = {
+  title: 'Test Post Title',
+  content: 'This is the content of the test post.',
+  status: 'publish'
+};
+
+const headers = new Headers({
+  'Content-Type': 'application/json',
+  'Authorization': 'Basic ' + btoa(username + ':' + appPassword)
+});
+
+fetch(apiUrl, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(data => console.log('Post created:', data))
+.catch(error => console.error('Error:', error));
+</script>
+</body>
+</html>
